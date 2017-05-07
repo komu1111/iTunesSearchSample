@@ -1,5 +1,5 @@
 //
-//  NSObjectProtocol+Extension.swift
+//  iTuensSearchResponse.swift
 //  iTunesSearchExample
 //
 //  Created by Shohei Komura on 2017/05/05.
@@ -8,9 +8,7 @@
 
 import Foundation
 
-extension NSObjectProtocol {
-    static var className: String {
-        return String(describing: self)
-    }
+struct iTunesSearchResponse<T>: iTuensResponse {
+    let value: T
 }
 

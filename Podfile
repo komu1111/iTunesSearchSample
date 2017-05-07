@@ -2,11 +2,14 @@
 # platform :ios, '9.0'
 
 target 'iTunesSearchExample' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-pod 'Himotoki'
-pod 'APIKit'
-  # Pods for iTunesSearchExample
+  pod 'Himotoki'
+  pod 'APIKit'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'Kingfisher'
+  
+# Pods for iTunesSearchExample
 
   target 'iTunesSearchExampleTests' do
     inherit! :search_paths

@@ -6,7 +6,6 @@
 //  Copyright © 2017年 Shohei Komura. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 protocol Storyboardable: NSObjectProtocol {
@@ -20,7 +19,7 @@ extension Storyboardable where Self: UIViewController {
     }
     
     static func instantiate() -> Self {
-        return UIStoryboard(name: storyboardName, bundle: Bundle(for: self)).instantiateInitialViewController() as! Self
+        return UIStoryboard(name: storyboardName, bundle: .main).instantiateInitialViewController() as! Self
     }
 }
 
