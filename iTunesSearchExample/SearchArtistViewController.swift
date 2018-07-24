@@ -18,16 +18,24 @@ final class SearchArtistViewController: UIViewController, Storyboardable {
     @IBOutlet weak var searchBar: UISearchBar!
     private let viewModel: SearchSongViewModel = SearchSongViewModel()
     private let disposeBag: DisposeBag = DisposeBag()
+    var selecedImageView: UIImageView!
+    var myTransition = MyTransitionDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSelf))
-        self.view.addGestureRecognizer(tapGesture)
+        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSelf))
+        //        self.view.addGestureRecognizer(tapGesture)
         
         configureTableView()
         configureObserver()
-        
+    }
+    
+    func copyImageView() -> UIImageView {
+        let image = UIImageView(image: selecedImageView.image)
+        image.frame = selecedImageView.convert(selecedImageView.bounds, to: self.view)
+        image.contentMode = selecedImageView.contentMode
+        return image
     }
     
     private func configureTableView() {
@@ -42,7 +50,7 @@ final class SearchArtistViewController: UIViewController, Storyboardable {
             cell.configure(with: song)
             }
             .addDisposableTo(disposeBag)
-        
+    
         searchBar.rx.text.orEmpty.asDriver()
             .skip(1)
             .debounce(0.3)
@@ -59,19 +67,29 @@ final class SearchArtistViewController: UIViewController, Storyboardable {
                 self.indicatorView.rx.isAnimating.on(.next(isLoading))
                 
             })
-        .addDisposableTo(disposeBag)
-        
+            .addDisposableTo(disposeBag)
     }
     
-    func tapSelf() {
-        self.view.endEditing(true)
-    }
+    //    func tapSelf() {
+    //        self.view.endEditing(true)
+    //    }
     
+    func presentSecondView() {
+        let vc = DetailViewController.instantiate()
+        vc.transitioningDelegate = myTransition
+        present(vc, animated: true, completion: nil)
+    }
 }
 
 extension SearchArtistViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? SearchArtistViewCell {
+            selecedImageView = cell.coverImageView
+            presentSecondView()
+        }
+    }
 }
-

@@ -9,7 +9,7 @@
 import Foundation
 import Himotoki
 
-struct iTunesSong: Decodable {
+struct iTunesSong: Himotoki.Decodable {
     
     let artistName: String
     let songName: String
